@@ -229,8 +229,7 @@ body {
 }
 
 .app-container {
-  max-width: 480px;
-  margin: 0 auto;
+ width: 100%; /* --- DIUBAH --- */
   padding: var(--space-4);
 }
 
@@ -265,6 +264,11 @@ body {
   border: 1px solid var(--c-border);
   margin-bottom: var(--space-6);
   transition: transform var(--transition), box-shadow var(--transition);
+
+  /* --- DITAMBAHKAN --- */
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* --- 📊 SCORE SUMMARY --- */

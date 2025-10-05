@@ -160,6 +160,7 @@ onMounted(() => {
           <li v-for="activity in activities" :key="activity.id" class="card activity-item">
             <div class="activity-details">
               <span class="activity-name">{{ activity.name }}</span>
+              <br>
               <span class="activity-date">{{ formatDate(activity.created_at) }}</span>
             </div>
             <span class="activity-score" :style="{ color: energyOptions.find(o => o.score === activity.energy_score)?.color }">
@@ -175,20 +176,42 @@ onMounted(() => {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* --- 🎨 SISTEM DESAIN & VARIABLES --- */
 :root {
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --surface: #242424;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --text-primary: #f5f5f5;
-  --text-secondary: #a3a3a3;
-  --border: #2a2a2a;
-  --green: #10b981;
-  --red: #ef4444;
-  --shadow: rgba(0, 0, 0, 0.3);
+  /* Colors */
+  --c-bg: #0A0A0A;
+  --c-surface-1: #141414;
+  --c-surface-2: #1F1F1F;
+  --c-surface-3: #2A2A2A;
+  --c-primary: #007AFF;
+  --c-primary-hover: #3395FF;
+  --c-text-1: #F5F5F7;
+  --c-text-2: #8A8A8E;
+  --c-border: #2D2D2D;
+  --c-green: #34D399;
+  --c-red: #F87171;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --fs-xs: 0.75rem;   /* 12px */
+  --fs-sm: 0.875rem;  /* 14px */
+  --fs-base: 1rem;    /* 16px */
+  --fs-lg: 1.125rem;  /* 18px */
+  --fs-xl: 1.25rem;   /* 20px */
+  --fs-2xl: 1.5rem;   /* 24px */
+  --fs-3xl: 2rem;     /* 32px */
+
+  /* Spacing */
+  --space-1: 0.25rem; --space-2: 0.5rem;  --space-3: 0.75rem;
+  --space-4: 1rem;    --space-5: 1.25rem; --space-6: 1.5rem;
+
+  /* Radius & Transitions */
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --transition: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* --- 🌐 GLOBAL & RESET --- */
 * {
   margin: 0;
   padding: 0;
@@ -197,72 +220,68 @@ onMounted(() => {
 }
 
 body {
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  font-family: var(--font-sans);
+  background: var(--c-bg);
+  color: var(--c-text-1);
   line-height: 1.6;
-  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .app-container {
-  max-width: 420px;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 1rem;
-  padding-bottom: 2rem;
+  padding: var(--space-4);
 }
 
-/* Header */
+/* --- 🏠 HEADER --- */
 .app-header {
   text-align: center;
-  padding: 1.5rem 0 2rem;
+  margin-bottom: var(--space-6);
 }
 
 .header-icon {
-  font-size: 2.5rem;
-  background: linear-gradient(135deg, var(--primary), #8b5cf6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.75rem;
+  font-size: var(--fs-3xl);
+  color: var(--c-primary);
+  margin-bottom: var(--space-3);
 }
 
 .app-header h1 {
-  font-size: 1.75rem;
+  font-size: var(--fs-2xl);
   font-weight: 700;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
+  margin-bottom: var(--space-1);
 }
 
 .app-header p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
+  color: var(--c-text-2);
+  font-size: var(--fs-base);
 }
 
-/* Card Base */
+/* --- 🃏 CARD BASE --- */
 .card {
-  background: var(--bg-secondary);
-  border-radius: 20px;
-  padding: 1.25rem;
-  border: 1px solid var(--border);
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 12px var(--shadow);
+  background: var(--c-surface-1);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  border: 1px solid var(--c-border);
+  margin-bottom: var(--space-6);
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
-/* Score Summary */
+/* --- 📊 SCORE SUMMARY --- */
 .score-summary-card h2 {
-  font-size: 1.1rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
-  margin-bottom: 1.25rem;
+  margin-bottom: var(--space-5);
   text-align: center;
-  color: var(--text-secondary);
+  color: var(--c-text-2);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
+  letter-spacing: 0.075em;
 }
 
 .summary-grid {
   display: flex;
   justify-content: space-around;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .summary-item {
@@ -272,51 +291,47 @@ body {
 
 .summary-item .label {
   display: block;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
+  font-size: var(--fs-xs);
+  color: var(--c-text-2);
+  margin-bottom: var(--space-2);
   font-weight: 500;
 }
 
 .summary-item .value {
-  font-size: 2rem;
+  font-size: var(--fs-3xl);
   font-weight: 700;
   display: block;
+  line-height: 1;
 }
 
 .summary-item .value.icon {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
 }
 
-.summary-item .value.positive {
-  color: var(--green);
-}
+.summary-item .value.positive { color: var(--c-green); }
+.summary-item .value.negative { color: var(--c-red); }
 
-.summary-item .value.negative {
-  color: var(--red);
-}
-
-/* Form */
+/* --- ✍️ FORM --- */
 .input-group {
   display: flex;
   align-items: center;
-  background: var(--surface);
-  border-radius: 14px;
-  padding: 0 1rem;
-  margin-bottom: 1.25rem;
-  border: 2px solid transparent;
-  transition: all 0.2s ease;
+  background: var(--c-surface-2);
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-4);
+  margin-bottom: var(--space-5);
+  border: 1px solid var(--c-border);
+  transition: border-color var(--transition), background-color var(--transition);
 }
 
 .input-group:focus-within {
-  border-color: var(--primary);
-  background: var(--bg-secondary);
+  border-color: var(--c-primary);
+  background: var(--c-surface-1);
 }
 
 .input-group i {
-  color: var(--text-secondary);
-  margin-right: 0.75rem;
-  font-size: 1rem;
+  color: var(--c-text-2);
+  margin-right: var(--space-3);
+  font-size: var(--fs-base);
 }
 
 .input-group input {
@@ -324,169 +339,169 @@ body {
   background: none;
   border: none;
   outline: none;
-  padding: 1rem 0;
-  color: var(--text-primary);
-  font-size: 0.95rem;
-  font-family: 'Inter', sans-serif;
+  padding: var(--space-4) 0;
+  color: var(--c-text-1);
+  font-size: var(--fs-base);
+  font-family: var(--font-sans);
 }
 
-.input-group input::placeholder {
-  color: var(--text-secondary);
-}
+.input-group input::placeholder { color: var(--c-text-2); }
 
 /* Score Selector */
 .score-selector {
   display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
 }
 
 .score-button {
-  background: var(--surface);
-  border: 2px solid transparent;
-  color: var(--text-secondary);
-  font-size: 1.5rem;
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  color: var(--c-text-2);
+  font-size: var(--fs-2xl);
   cursor: pointer;
   padding: 0;
-  border-radius: 12px;
-  width: 100%;
+  border-radius: var(--radius-md);
+  flex: 1;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all var(--transition);
 }
 
-.score-button:active {
-  transform: scale(0.95);
+.score-button:hover {
+  background: var(--c-surface-3);
+  transform: translateY(-2px);
 }
+.score-button:active { transform: scale(0.95); }
 
 .score-button.active {
   color: var(--active-color);
   border-color: var(--active-color);
-  background: var(--bg-secondary);
-  transform: scale(1.05);
+  background: var(--c-surface-1);
+  box-shadow: 0 0 15px -2px var(--active-color, var(--c-primary));
 }
 
 /* Submit Button */
 .submit-button {
   width: 100%;
-  padding: 1rem;
-  font-size: 0.95rem;
+  padding: var(--space-4);
+  font-size: var(--fs-base);
   font-weight: 600;
   color: white;
-  background: var(--primary);
+  background: var(--c-primary);
   border: none;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  gap: var(--space-3);
+  transition: all var(--transition);
 }
 
-.submit-button:active {
-  transform: scale(0.98);
+.submit-button:hover:not(:disabled) {
+  background: var(--c-primary-hover);
+  transform: translateY(-2px);
+}
+.submit-button:active:not(:disabled) {
+  transform: scale(0.98) translateY(0);
 }
 
 .submit-button:disabled {
-  background: var(--surface);
-  color: var(--text-secondary);
+  background: var(--c-surface-2);
+  color: var(--c-text-2);
   cursor: not-allowed;
-  box-shadow: none;
 }
 
-/* Activity Feed */
+/* --- 📜 ACTIVITY FEED --- */
 .activity-feed h2 {
-  font-size: 1.1rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
-  margin-bottom: 1rem;
-  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+  color: var(--c-text-2);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-  padding-left: 0.25rem;
+  letter-spacing: 0.075em;
+  padding-left: var(--space-2);
 }
 
-.loading-state,
-.empty-state {
+.loading-state, .empty-state {
   text-align: center;
-  padding: 3rem 1rem;
-  color: var(--text-secondary);
+  padding: 3rem var(--space-4);
+  color: var(--c-text-2);
 }
 
-.loading-state i,
-.empty-state i {
+.loading-state i, .empty-state i {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-4);
   opacity: 0.5;
 }
 
 .empty-state p {
   font-weight: 500;
-  margin-bottom: 0.25rem;
-  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+  color: var(--c-text-1);
 }
 
-.empty-state span {
-  font-size: 0.9rem;
-}
-
-/* Activity List */
+/* Activity List & Staggered Animation */
 .activity-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
 .activity-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  transition: all 0.2s ease;
+  padding: var(--space-4);
+  transition: all var(--transition);
   margin-bottom: 0;
+  opacity: 0; /* Start hidden for animation */
+  animation: fadeInUp 0.5s ease forwards;
 }
 
-.activity-item:active {
-  transform: scale(0.98);
+/* Delay animasi untuk beberapa item pertama agar terlihat berurutan */
+.activity-item:nth-child(1) { animation-delay: 0.1s; }
+.activity-item:nth-child(2) { animation-delay: 0.2s; }
+.activity-item:nth-child(3) { animation-delay: 0.3s; }
+.activity-item:nth-child(4) { animation-delay: 0.4s; }
+.activity-item:nth-child(5) { animation-delay: 0.5s; }
+
+.activity-item:hover {
+  transform: scale(1.02);
+  background: var(--c-surface-2);
 }
 
-.activity-details {
-  flex: 1;
-  min-width: 0;
-}
+.activity-details { flex: 1; min-width: 0; }
 
 .activity-name {
-  font-size: 0.95rem;
+  font-size: var(--fs-sm);
   font-weight: 500;
-  display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--space-1);
 }
 
 .activity-date {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  color: var(--c-text-2);
 }
 
 .activity-score {
-  font-size: 1.75rem;
-  margin-left: 1rem;
+  font-size: var(--fs-2xl);
+  margin-left: var(--space-4);
   flex-shrink: 0;
 }
 
-/* Smooth Animations */
-@keyframes fadeIn {
+/* --- ✨ ANIMATIONS --- */
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -494,26 +509,20 @@ body {
   }
 }
 
-.card {
-  animation: fadeIn 0.3s ease;
-}
-
-/* Mobile Optimization */
+/* --- 📱 MOBILE OPTIMIZATION --- */
 @media (max-width: 380px) {
   .app-container {
-    padding: 0.75rem;
+    padding: var(--space-3);
   }
-  
   .card {
-    padding: 1rem;
+    padding: var(--space-4);
   }
-  
-  .score-button {
-    font-size: 1.25rem;
-  }
-  
   .summary-item .value {
-    font-size: 1.75rem;
+    font-size: var(--fs-2xl);
+  }
+  .score-button {
+    font-size: var(--fs-xl);
   }
 }
+
 </style>
